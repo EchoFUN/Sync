@@ -1,0 +1,17 @@
+{
+   "name": "sync",
+   "description": "Just a simple javascript module used to control the order of workflow.",
+   "main": "./lib/sync",
+   "author": {
+      "name": "XU Kai"
+   },
+   "version": "0.0.1",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/EchoFUN/Sync.git"
+   },
+   "scripts": {
+      "test": "nodeunit test/test-async.js"
+   },
+   "readmeFilename": "README.md"
+}
