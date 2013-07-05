@@ -30,15 +30,12 @@
       
       // 判断不同的参数结构，执行不同的方法体。
       if (tasks.constructor === Array) {
-         if (tasks.length) {
-            var tasksLength = tasks.length;
+         var tasksLength = tasks.length;
+         if (tasksLength) {
             var firstTask = tasks.shift();
 
-            var resultStack = [], taskCounter = 0, error = null;
+            var resultStack = [], error = null;
             var procedure = function(taskError, result) {
-
-               // 任务执行计数器加一。
-               taskCounter++;
                
                // 把执行结果和错误压入堆栈。
                resultStack.push(result);
@@ -61,9 +58,27 @@
 
    Sync.parallel = function(tasks, callback) {
       if (tasks.constructor === Array) {
-         if (tasks.length) {
+         var tasksLength = tasks.length;
+         if (tasksLength) {
             
-            
+            var resultStack = [], taskCounter = 0, error = null;
+            var procedure = function(taskError, result) {
+               
+               // 任务执行计数器加一。
+               taskCounter++;
+               
+               // 压入执行结果和执行过程中遇到的错误。
+               resultStack.push(result);
+               error = taskError || error;
+               
+               // 最后执行成功触发的回调。             
+               if (taskCounter == tasksLength)
+                  callback(error, resultStack);
+            };
+            while(tasks.length > 0) {
+               var currentTask = tasks.shift();
+               currentTask(procedure);
+            }
          } else {
             callback();
          }
