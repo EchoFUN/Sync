@@ -35,7 +35,7 @@
             var firstTask = tasks.shift();
 
             var resultStack = [], taskCounter = 0, error = null;
-            var signal = function(taskError, result) {
+            var procedure = function(taskError, result) {
 
                // 任务执行计数器加一。
                taskCounter++;
@@ -45,12 +45,14 @@
                error = taskError || error;
                if (tasks.length) {
                   var nextTask = tasks.shift();
-                  nextTask(signal);
+                  nextTask(procedure);
                } else {
                   callback(error, resultStack);
                }
             };
-            firstTask(signal);
+            firstTask(procedure);
+         } else {
+            callback();
          }
       } else {
          ;
@@ -59,7 +61,12 @@
 
    Sync.parallel = function(tasks, callback) {
       if (tasks.constructor === Array) {
-         
+         if (tasks.length) {
+            
+            
+         } else {
+            callback();
+         }
       } else {
          ;
       }
@@ -89,17 +96,18 @@
 
 Sync.parallel([
       function(callback) {
-         
+         callback(null, 1);
       },
       function(callback) {
-         
+         callback(null, 2);
       },
       function(callback) {
-         
+         callback(null, 3);
       }
    ],
    
    function(error, results) {
-      
+      error && console.log(error.message);
+      console.log(results);
    }
 )
