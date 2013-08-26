@@ -13,5 +13,8 @@
    "scripts": {
       "test": "nodeunit test/test-async.js"
    },
-   "readmeFilename": "README.md"
+   "readmeFilename": "README.md",
+   "dependencies": {
+      "async": "0.2.6"
+   }
 }
